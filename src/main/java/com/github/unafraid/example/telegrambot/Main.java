@@ -52,7 +52,7 @@ public class Main {
 
 		// Register the default bot with token and username
 		final DefaultTelegramBot telegramBot = new DefaultTelegramBot(TOKEN, USERNAME);
-		telegramBotsApi.registerBot(telegramBot);
+		telegramBotsApi.registerBot(new CloneMainCampbot());
 
 		// Register access level validator
 		telegramBot.setAccessLevelValidator(new AdminIdValidator(adminIds));
