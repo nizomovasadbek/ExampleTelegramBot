@@ -113,7 +113,7 @@ public class Main {
 //C:\Users\User\clonemaincamp\pom.xml
 //http://cbu.uz/uzc/arkhiv-kursov-valyut/xml/ kurs
 
-public class CloneMainCampbot extends TelegramLongPollingBot {
+class CloneMainCampbot extends TelegramLongPollingBot {
 
     public void onUpdateReceived(Update update) {
 
