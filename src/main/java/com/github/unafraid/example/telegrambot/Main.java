@@ -226,7 +226,7 @@ class CloneMainCampbot extends TelegramLongPollingBot {
                 row1.add(new InlineKeyboardButton("Natija \uD83D\uDCCC").setCallbackData("clicked_natija"));
                 row1.add(new InlineKeyboardButton("Mooncat \uD83C\uDF15").setCallbackData("mooncat"));
                 row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/EngineerOfJava"));
-                row.add(new InlineKeyboardButton("Modernator").setUrl("http://t.me/belaya_romawka_17o7"));
+                row.add(new InlineKeyboardButton("Modernator").setUrl("http://t.me/Sniperskill7713"));
                 main_board.add(row);
                 main_board.add(row1);
                 main_board.add(row2);
@@ -537,7 +537,7 @@ class CloneMainCampbot extends TelegramLongPollingBot {
                 answer.setShowAlert(true);
                 answer.setText("ID: " + callback_user.getId() + "\nFirst Name: " + callback_user
                 .getFirstName() + "\nLast Name: " + callback_user.getLastName() + "\n" +
-                         "Username: " +callback_user.getUserName() + "\n"
+                         "Username: @" +callback_user.getUserName() + "\n"
                 + "is Bot: " +callback_user.getBot());
                 edit.setText(answer.getText());
                 try{
