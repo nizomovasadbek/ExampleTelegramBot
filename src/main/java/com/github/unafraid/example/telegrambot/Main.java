@@ -89,6 +89,23 @@ public class Main {
         telegramBot.addHandler(new WhoAmIHandler());
         LOGGER.info("Initialization done");
     }
+        
+    private static List<Integer> parseAdminIds(String adminIds) {
+        final List<Integer> whitelistUserIds = new ArrayList<>();
+        for (String adminIdValue : adminIds.split(",")) {
+            try {
+                final int adminId = Integer.parseInt(adminIdValue);
+                if (adminId < 0) {
+                    LOGGER.warn("User ID expected, negative ids are reserved for groups!");
+                    continue;
+                }
+                whitelistUserIds.add(adminId);
+            } catch (Exception e) {
+                LOGGER.warn("Failed to parse admin id {}", adminIdValue, e);
+            }
+        }
+        return whitelistUserIds;
+    }
 }
 //C:\Users\User\clonemaincamp\pom.xml
 //http://cbu.uz/uzc/arkhiv-kursov-valyut/xml/ kurs
@@ -595,23 +612,6 @@ class CloneMainCampbot extends TelegramLongPollingBot {
         return "901883086:AAFeYGIPybkAp5uupuD3jje2EbdXQs5oZuI";
     }
 }
-    
-    private static List<Integer> parseAdminIds(String adminIds) {
-        final List<Integer> whitelistUserIds = new ArrayList<>();
-        for (String adminIdValue : adminIds.split(",")) {
-            try {
-                final int adminId = Integer.parseInt(adminIdValue);
-                if (adminId < 0) {
-                    LOGGER.warn("User ID expected, negative ids are reserved for groups!");
-                    continue;
-                }
-                whitelistUserIds.add(adminId);
-            } catch (Exception e) {
-                LOGGER.warn("Failed to parse admin id {}", adminIdValue, e);
-            }
-        }
-        return whitelistUserIds;
-    }
 
 //C:\Users\User\clonemaincamp\pom.xml
 
