@@ -28,9 +28,7 @@ import org.telegram.telegrambots.meta.api.methods.groupadministration.LeaveChat;
 import org.telegram.telegrambots.meta.api.methods.pinnedmessages.PinChatMessage;
 import org.telegram.telegrambots.meta.api.methods.pinnedmessages.UnpinChatMessage;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatTitle;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPermissions;
 import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.ChatPermissions;
 import org.telegram.telegrambots.meta.api.objects.User;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -39,6 +37,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.RestrictChatMember;
+import java.time.ZonedDateTime;
 /**
  * @author UnAfraid
  */
@@ -90,26 +90,6 @@ public class Main {
         LOGGER.info("Initialization done");
     }
 
-    private static List<Integer> parseAdminIds(String adminIds) {
-        final List<Integer> whitelistUserIds = new ArrayList<>();
-        for (String adminIdValue : adminIds.split(",")) {
-            try {
-                final int adminId = Integer.parseInt(adminIdValue);
-                if (adminId < 0) {
-                    LOGGER.warn("User ID expected, negative ids are reserved for groups!");
-                    continue;
-                }
-                whitelistUserIds.add(adminId);
-            } catch (Exception e) {
-                LOGGER.warn("Failed to parse admin id {}", adminIdValue, e);
-            }
-        }
-        return whitelistUserIds;
-    }
-}
-
-//C:\Users\User\clonemaincamp\pom.xml
-
 //C:\Users\User\clonemaincamp\pom.xml
 //http://cbu.uz/uzc/arkhiv-kursov-valyut/xml/ kurs
 
@@ -126,6 +106,8 @@ class CloneMainCampbot extends TelegramLongPollingBot {
             SendMessage msg = new SendMessage();
             msg.setParseMode(ParseMode.HTML);
             Chat chat = update.getMessage().getChat();
+            RestrictChatMember mute = new RestrictChatMember();
+            ZonedDateTime zd = ZonedDateTime.now();
 
             if(update.getMessage().isSuperGroupMessage()||update.getMessage().isGroupMessage()){
                 if(message_text.equals("/gid")){
@@ -136,25 +118,30 @@ class CloneMainCampbot extends TelegramLongPollingBot {
 
                 }
 
-                if(message_text.equals("/permissions")){
-                    SetChatPermissions per = new SetChatPermissions();
-                    per.setChatId(chat_id);
-                    ChatPermissions c = new ChatPermissions();
-                    per.setPermissions(c);
-
-                    msg.setChatId(chat_id);
-                    msg.setText("Permissionlar o'rnatildi.");
-                    msg.setReplyToMessageId(update.getMessage().getMessageId());
-
+                if(message_text.equals("/mute")&&update.getMessage().isReply()){
+                    mute.setChatId(chat_id);
+                    mute.setUserId(update.getMessage().getReplyToMessage().getFrom().getId());
                     try {
-                        execute(per);
-                    }catch (TelegramApiException e){
+                        execute(mute);
+                    } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
                 }
 
-                if(message_text.equals("/leave_chat")&&update.getMessage().
-                        getFrom().getId().equals(649244901)){
+                if(message_text.equals("/unmute")&&update.getMessage().isReply()){
+                    mute.setChatId(chat_id);
+                    mute.setUserId(update.getMessage().getReplyToMessage().getFrom().getId());
+                    mute.setUntilDate(zd);
+
+                    try{
+                        execute(mute);
+                    }catch(TelegramApiException e){
+                        e.printStackTrace();
+                    }
+                    mute = new RestrictChatMember();
+                }
+
+                if(message_text.equals("/leave_chat")){
                     LeaveChat leave = new LeaveChat();
                     leave.setChatId(chat_id);
 
@@ -226,7 +213,7 @@ class CloneMainCampbot extends TelegramLongPollingBot {
                 row1.add(new InlineKeyboardButton("Natija \uD83D\uDCCC").setCallbackData("clicked_natija"));
                 row1.add(new InlineKeyboardButton("Mooncat \uD83C\uDF15").setCallbackData("mooncat"));
                 row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/EngineerOfJava"));
-                row.add(new InlineKeyboardButton("Modernator").setUrl("http://t.me/Sniperskill7713"));
+                row.add(new InlineKeyboardButton("Modernator").setUrl("http://t.me/belaya_romawka_17o7"));
                 main_board.add(row);
                 main_board.add(row1);
                 main_board.add(row2);
@@ -537,7 +524,7 @@ class CloneMainCampbot extends TelegramLongPollingBot {
                 answer.setShowAlert(true);
                 answer.setText("ID: " + callback_user.getId() + "\nFirst Name: " + callback_user
                 .getFirstName() + "\nLast Name: " + callback_user.getLastName() + "\n" +
-                         "Username: @" +callback_user.getUserName() + "\n"
+                         "Username: " +callback_user.getUserName() + "\n"
                 + "is Bot: " +callback_user.getBot());
                 edit.setText(answer.getText());
                 try{
@@ -608,6 +595,31 @@ class CloneMainCampbot extends TelegramLongPollingBot {
         return "901883086:AAFeYGIPybkAp5uupuD3jje2EbdXQs5oZuI";
     }
 }
+    
+    private static List<Integer> parseAdminIds(String adminIds) {
+        final List<Integer> whitelistUserIds = new ArrayList<>();
+        for (String adminIdValue : adminIds.split(",")) {
+            try {
+                final int adminId = Integer.parseInt(adminIdValue);
+                if (adminId < 0) {
+                    LOGGER.warn("User ID expected, negative ids are reserved for groups!");
+                    continue;
+                }
+                whitelistUserIds.add(adminId);
+            } catch (Exception e) {
+                LOGGER.warn("Failed to parse admin id {}", adminIdValue, e);
+            }
+        }
+        return whitelistUserIds;
+    }
+}
+
+//C:\Users\User\clonemaincamp\pom.xml
+
+//C:\Users\User\clonemaincamp\pom.xml
+//http://cbu.uz/uzc/arkhiv-kursov-valyut/xml/ kurs
+
+
 
 class obhavoback {
     private String html = "";
