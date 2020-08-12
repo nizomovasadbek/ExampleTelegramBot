@@ -89,7 +89,7 @@ public class Main {
         telegramBot.addHandler(new WhoAmIHandler());
         LOGGER.info("Initialization done");
     }
-
+}
 //C:\Users\User\clonemaincamp\pom.xml
 //http://cbu.uz/uzc/arkhiv-kursov-valyut/xml/ kurs
 
@@ -612,7 +612,6 @@ class CloneMainCampbot extends TelegramLongPollingBot {
         }
         return whitelistUserIds;
     }
-}
 
 //C:\Users\User\clonemaincamp\pom.xml
 
