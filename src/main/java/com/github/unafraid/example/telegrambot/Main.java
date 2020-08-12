@@ -258,7 +258,6 @@ public class Main {
                     row1.add(new InlineKeyboardButton("Natija \uD83D\uDCCC").setCallbackData("clicked_natija"));
                     row1.add(new InlineKeyboardButton("Mooncat \uD83C\uDF15").setCallbackData("mooncat"));
                     row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/EngineerOfJava"));
-                    row.add(new InlineKeyboardButton("Modernator").setUrl("http://t.me/belaya_romawka_17o7"));
                     main_board.add(row);
                     main_board.add(row1);
                     main_board.add(row2);
