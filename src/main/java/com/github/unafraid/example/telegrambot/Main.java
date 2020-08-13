@@ -116,6 +116,7 @@ public class Main {
 
             List<List<InlineKeyboardButton>> main_board = new ArrayList<List<InlineKeyboardButton>>();
             List<List<InlineKeyboardButton>> min_board = new ArrayList<List<InlineKeyboardButton>>();
+            String[] valyutalar = new String[8];
 
             if(update.hasMessage() && update.getMessage().hasText()){
                 String message_text = update.getMessage().getText();
