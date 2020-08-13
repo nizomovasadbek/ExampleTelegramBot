@@ -113,6 +113,35 @@ public class Main {
 
     class CloneMainCampbot extends TelegramLongPollingBot {
 
+        public static String getStatus()throws Exception{
+            String get_text = "";
+            String n[] = {"Kasallanganlar\uD83E\uDD12     ", "Tuzalganlar\uD83E\uDD24     ",
+                    "Vafot etganlar⚰️     "};
+            int i = 0;
+            URL url = new URL("https://www.gazeta.uz/oz/");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            String html = "";
+            String line = "";
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            while((line = buffer.readLine())!=null){
+                html += line + "\n";
+            }
+            String reg = "<div class=\"block-row-item row-value\"><span>";
+            Pattern ptr = Pattern.compile(reg);
+            Matcher mt = ptr.matcher(html);
+            while(mt.find()){
+                String xml = html.substring(mt.start()+44, mt.end()+10);
+                String as = xml.substring(0, xml.indexOf('<'));
+                get_text += n[i] + as + "\n";
+                i++;
+            }
+            buffer.close();
+            con.disconnect();
+
+            return get_text;
+        }
+        
         public void onUpdateReceived(Update update) {
 
             List<List<InlineKeyboardButton>> main_board = new ArrayList<List<InlineKeyboardButton>>();
@@ -262,7 +291,7 @@ public class Main {
                     row3.add(new InlineKeyboardButton("Ob-havo ⛰").setCallbackData("obhavo"));
                     row3.add(new InlineKeyboardButton("Valyuta\uD83D\uDCB5").setCallbackData("valyuta"));
                     row2.add(new InlineKeyboardButton("Get Info \uD83D\uDCBD").setCallbackData("info"));
-                    row1.add(new InlineKeyboardButton("Natija \uD83D\uDCCC").setCallbackData("clicked_natija"));
+                    row1.add(new InlineKeyboardButton("Koronavirus 🦠").setCallbackData("clicked_natija"));
                     row1.add(new InlineKeyboardButton("Mooncat \uD83C\uDF15").setCallbackData("mooncat"));
                     row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/EngineerOfJava"));
 
@@ -615,26 +644,15 @@ public class Main {
                 }
 
                 if(call_data.equals("clicked_natija")){
-                    String answer = "Nima gaplar " + update.getCallbackQuery().getFrom().getFirstName()
-                            + "";
                     EditMessageText edit = new EditMessageText();
-                    edit.setChatId(chat_id);
-                    edit.setMessageId((int) message_id);
-                    edit.setText(answer);
-
-                    AnswerCallbackQuery ans = new AnswerCallbackQuery();
-                    ans.setCallbackQueryId(update.getCallbackQuery().getId());
-                    ans.setShowAlert(true);
-                    ans.setText("Nima gaplar " + update.getCallbackQuery().getFrom().getFirstName());
-
-
-
-                    try{
-                        execute(edit);
-                        execute(ans);
-                    }catch (TelegramApiException e){
-                        e.printStackTrace();
-                    }
+                edit.setChatId(chat_id);
+                edit.setMessageId((int) message_id);
+                try {
+                    edit.setText(getStatus());
+                    execute(edit);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 }
 
                 if(call_data.equals("valyuta")){
