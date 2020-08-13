@@ -13,7 +13,11 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.net.*;
+import java.io.*;
+import javax.xml.parsers.*;
+import org.w3c.dom.*;
+import javax.xml.xpath.*;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
@@ -24,10 +28,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.*;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.LeaveChat;
 import org.telegram.telegrambots.meta.api.methods.pinnedmessages.PinChatMessage;
 import org.telegram.telegrambots.meta.api.methods.pinnedmessages.UnpinChatMessage;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatTitle;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.*;
 import org.telegram.telegrambots.meta.api.objects.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -254,10 +258,12 @@ public class Main {
                     List<InlineKeyboardButton> row2 = new ArrayList<InlineKeyboardButton>();
                     List<InlineKeyboardButton> row3 = new ArrayList<InlineKeyboardButton>();
                     row3.add(new InlineKeyboardButton("Ob-havo ⛰").setCallbackData("obhavo"));
+                    row3.add(new InlineKeyboardButton("Valyuta\uD83D\uDCB5").setCallbackData("valyuta"));
                     row2.add(new InlineKeyboardButton("Get Info \uD83D\uDCBD").setCallbackData("info"));
                     row1.add(new InlineKeyboardButton("Natija \uD83D\uDCCC").setCallbackData("clicked_natija"));
                     row1.add(new InlineKeyboardButton("Mooncat \uD83C\uDF15").setCallbackData("mooncat"));
                     row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/EngineerOfJava"));
+
                     main_board.add(row);
                     main_board.add(row1);
                     main_board.add(row2);
@@ -628,6 +634,57 @@ public class Main {
                         e.printStackTrace();
                     }
                 }
+
+                if(call_data.equals("valyuta")){
+                    try{
+                        URL val_url = new URL("http://cbu.uz/uzc/arkhiv-kursov-valyut/xml/");
+                        HttpURLConnection connection = (HttpURLConnection) val_url.openConnection();
+                        connection.setRequestMethod("GET");
+                        String xml = "";
+                        BufferedReader reader = new BufferedReader(new
+                                InputStreamReader(connection.getInputStream()));
+                        String line = "";
+                        while((line = reader.readLine())!=null){
+                            xml += line + "\n";
+                        }
+
+                        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                        Document d = db.parse(new InputSource(new StringReader(xml)));
+
+                        NodeList nodejs = d.getDocumentElement().getElementsByTagName("CcyNm_UZ");
+                        NodeList nodeval = d.getDocumentElement().getElementsByTagName("Rate");
+                        NodeList data = d.getDocumentElement().getElementsByTagName("date");
+                        Node date = data.item(0);
+                        int[] kerakli_valyutalar = {0, 14, 20, 31, 36, 55, 65, 67};
+                        int i = 0;
+                        for(int x:kerakli_valyutalar){
+                            Node n = nodejs.item(x);
+                            Node n_org = nodeval.item(x);
+                            valyutalar[i] = n.getTextContent() + " - " + n_org.getTextContent() + " so'm";
+                            i++;
+                        }
+
+                        String all_text = "";
+
+                        for(int fi = 0; fi < kerakli_valyutalar.length; fi++){
+                            all_text += valyutalar[fi] + "\n";
+                        }
+
+                        EditMessageText edit = new EditMessageText();
+                        edit.setParseMode(ParseMode.HTML);
+                        edit.setMessageId((int) message_id);
+                        edit.setChatId(chat_id);
+                        edit.setText(all_text + "\n<b>" + date.getTextContent() + " ma`lumotiga ko'ra</b>");
+
+                        execute(edit);
+
+                        connection.disconnect();
+
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
             }
         }
 
@@ -640,9 +697,7 @@ public class Main {
         }
     }
 
-//C:\Users\User\clonemaincamp\pom.xml
 
-//C:\Users\User\clonemaincamp\pom.xml
 //http://cbu.uz/uzc/arkhiv-kursov-valyut/xml/ kurs
 
 
