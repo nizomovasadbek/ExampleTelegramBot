@@ -196,7 +196,7 @@ public class Main {
                         }
                     }
 
-                    if(update.getMessage().hasEntities()){
+                    if(update.getMessage().hasEntities()&&!is_admin){
                         List<MessageEntity> en = new ArrayList<>();
                         en = update.getMessage().getEntities();
                         msg.setChatId(chat_id);
