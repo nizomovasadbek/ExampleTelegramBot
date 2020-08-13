@@ -651,7 +651,7 @@ public class Main {
                         }
 
                         DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                        Document d = db.parse(new InputSource(new StringReader(xml)));
+                        org.w3c.dom.Document d = db.parse(new InputSource(new StringReader(xml)));
 
                         NodeList nodejs = d.getDocumentElement().getElementsByTagName("CcyNm_UZ");
                         NodeList nodeval = d.getDocumentElement().getElementsByTagName("Rate");
