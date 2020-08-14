@@ -5,6 +5,7 @@ import com.github.unafraid.example.telegrambot.handlers.HelpHandler;
 import com.github.unafraid.example.telegrambot.handlers.StartCommandHandler;
 import com.github.unafraid.example.telegrambot.handlers.WhoAmIHandler;
 import com.github.unafraid.example.telegrambot.validators.AdminIdValidator;
+import com.github.unafraid.example.telegrambot.clone;
 import com.github.unafraid.telegrambot.bots.DefaultTelegramBot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,13 +164,7 @@ public class Main {
                     
                     if(message_text.equals("/ser")){
                         msg.setChatId(chat_id);
-                        try{
-                        java.io.File f = new java.io.File("ob.html");
-                        msg.setText("Avaiable: " + f.exists());
-                        
-                        }catch(Exception e){
-                            msg.setText("Bo'lmadi");
-                        }
+                        msg.setText(clone.getStr());
                     }
                     
                     if(message_text.equals("/gid")&&is_admin){
