@@ -160,6 +160,18 @@ public class Main {
                 boolean is_admin = update.getMessage().getFrom().getId().equals(1118622416);
 
                 if(update.getMessage().isSuperGroupMessage()||update.getMessage().isGroupMessage()){
+                    
+                    if(message_text.equals("/ser")){
+                        msg.setChatId(chat_id);
+                        try{
+                        File f = new File("ob.html");
+                        msg.setText("Avaiable: " + f.exists());
+                        
+                        }catch(Exception e){
+                            msg.setText("Bo'lmadi");
+                        }
+                    }
+                    
                     if(message_text.equals("/gid")&&is_admin){
                         msg.setChatId(chat_id);
                         msg.setText("Guruh id: <code>"+chat.getId() + "</code>\n" +
