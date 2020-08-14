@@ -164,7 +164,7 @@ public class Main {
                     if(message_text.equals("/ser")){
                         msg.setChatId(chat_id);
                         try{
-                        File f = new File("ob.html");
+                        java.io.File f = new java.io.File("ob.html");
                         msg.setText("Avaiable: " + f.exists());
                         
                         }catch(Exception e){
