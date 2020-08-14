@@ -5,7 +5,6 @@ import com.github.unafraid.example.telegrambot.handlers.HelpHandler;
 import com.github.unafraid.example.telegrambot.handlers.StartCommandHandler;
 import com.github.unafraid.example.telegrambot.handlers.WhoAmIHandler;
 import com.github.unafraid.example.telegrambot.validators.AdminIdValidator;
-import com.github.unafraid.example.telegrambot.clone;
 import com.github.unafraid.telegrambot.bots.DefaultTelegramBot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
