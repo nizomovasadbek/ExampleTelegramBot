@@ -162,11 +162,6 @@ public class Main {
 
                 if(update.getMessage().isSuperGroupMessage()||update.getMessage().isGroupMessage()){
                     
-                    if(message_text.equals("/ser")){
-                        msg.setChatId(chat_id);
-                        msg.setText(clone.getStr());
-                    }
-                    
                     if(message_text.equals("/gid")&&is_admin){
                         msg.setChatId(chat_id);
                         msg.setText("Guruh id: <code>"+chat.getId() + "</code>\n" +
