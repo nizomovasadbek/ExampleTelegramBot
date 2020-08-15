@@ -309,10 +309,8 @@ public class Main {
 
                 }
 
-                if(message_text.trim().equals("/start")||message_text.trim().equals("/start@clonemaincampbot")
-                        &&update.getMessage().isUserMessage()){
+                if(message_text.trim().equals("/start")&&update.getMessage().isUserMessage()){
                     InlineKeyboardMarkup main_markup = new InlineKeyboardMarkup();
-
                     msg.setChatId(chat_id);
                     msg.setText("Salom <b>"+update.getMessage().getFrom().getFirstName()+"</b>");
                     List<InlineKeyboardButton> row = new ArrayList<InlineKeyboardButton>();
