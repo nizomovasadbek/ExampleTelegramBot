@@ -159,16 +159,17 @@ public class Main {
                 ZonedDateTime zd = ZonedDateTime.now();
                 boolean is_admin = update.getMessage().getFrom().getId().equals(1118622416);
                 Integer user_id = update.getMessage().getFrom().getId();
-                GetChatAdministrators administrators = new GetChatAdministrators();
-                administrators.setChatId(chat_id);
-                List<ChatMember> admins = null;
-                try {
-                    admins = execute(administrators);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
 
                 if(update.getMessage().isSuperGroupMessage()||update.getMessage().isGroupMessage()){
+                    
+                    GetChatAdministrators administrators = new GetChatAdministrators();
+                    administrators.setChatId(chat_id);
+                    List<ChatMember> admins = null;
+                    try {
+                        admins = execute(administrators);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
                     
                     for(ChatMember c:admins){
                         if(c.getUser().getId().equals(user_id)){
