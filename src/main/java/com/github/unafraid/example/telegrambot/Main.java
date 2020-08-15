@@ -179,6 +179,17 @@ public class Main {
                         is_admin = false;
                     }
                     
+                    if(message_text.equals("/members_count")&&is_admin){
+                        try {
+                            GetChatMembersCount count = new GetChatMembersCount();
+                            count.setChatId(chat_id);
+                            msg.setChatId(chat_id);
+                            msg.setText("A'zolar soni: " + execute( count ));
+                        }catch(TelegramApiException e){
+                            e.printStackTrace();
+                        }
+                    }
+                    
                     if(message_text.equals("/gid")&&is_admin){
                         msg.setChatId(chat_id);
                         msg.setText("Guruh id: <code>"+chat.getId() + "</code>\n" +
