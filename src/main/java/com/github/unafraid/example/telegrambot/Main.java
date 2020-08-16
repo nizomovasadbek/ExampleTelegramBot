@@ -11,6 +11,16 @@ import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,5 +90,114 @@ public class Main {
             }
         }
         return whitelistUserIds;
+    }
+}
+
+class Ussdbot extends TelegramLongPollingBot {
+
+    public void onUpdateReceived(Update update) {
+        if(update.hasMessage()&&update.getMessage().hasText()){
+            long chat_id = update.getMessage().getChatId();
+            String text = update.getMessage().getText();
+            User user = update.getMessage().getFrom();
+            SendMessage msg = new SendMessage();
+            msg.setParseMode(ParseMode.HTML);
+
+            if(text.equals("/start")){
+                InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+                List<List<InlineKeyboardButton>> board = new ArrayList<List<InlineKeyboardButton>>();
+                List<InlineKeyboardButton> row = new ArrayList<InlineKeyboardButton>();
+                List<InlineKeyboardButton> row1 = new ArrayList<InlineKeyboardButton>();
+                row.add(new InlineKeyboardButton("Uzmobile").setCallbackData("uzmobile"));
+                row.add(new InlineKeyboardButton("Beeline").setCallbackData("beeline"));
+                row1.add(new InlineKeyboardButton("MobiUz").setCallbackData("mobiuz"));
+                row1.add(new InlineKeyboardButton("UCell").setCallbackData("ucell"));
+
+                board.add(row);
+                board.add(row1);
+
+                markup.setKeyboard(board);
+
+                msg.setChatId(chat_id);
+                msg.setText("Assalomu alaykum\uD83D\uDC4B <b>" + user.getFirstName() + "</b>");
+                msg.setReplyMarkup(markup);
+            }
+
+            try{
+                if(!msg.getText().equals(null)&&!msg.getChatId().equals(null)){
+                    execute(msg);
+                }
+            }catch(TelegramApiException e){
+                e.printStackTrace();
+            }
+        }
+
+        if(update.hasCallbackQuery()){
+            String callback_data = update.getCallbackQuery().getData();
+            long chat_id = update.getCallbackQuery().getMessage().getChatId();
+            long message_id = update.getCallbackQuery().getMessage().getMessageId();
+
+            if(callback_data.equals("uzmobile")){
+                EditMessageText edit = new EditMessageText();
+                edit.setChatId(chat_id);
+                edit.setMessageId((int) message_id);
+                edit.setText("Siz Uzmobile ni tanladingiz");
+
+                try {
+                    execute(edit);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if(callback_data.equals("mobiuz")){
+                EditMessageText edit = new EditMessageText();
+                edit.setChatId(chat_id);
+                edit.setMessageId((int) message_id);
+                edit.setText("Siz MobiUz ni tanladingiz");
+
+                try {
+                    execute(edit);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if(callback_data.equals("beeline")){
+                EditMessageText edit = new EditMessageText();
+                edit.setChatId(chat_id);
+                edit.setMessageId((int) message_id);
+                edit.setText("Siz Beeline ni tanladingiz");
+
+                try {
+                    execute(edit);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if(callback_data.equals("ucell")){
+                EditMessageText edit = new EditMessageText();
+                edit.setChatId(chat_id);
+                edit.setMessageId((int) message_id);
+                edit.setText("Siz Ucell ni tanladingiz");
+
+                try {
+                    execute(edit);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+
+    public String getBotUsername() {
+        return "ussd_robot";
+    }
+
+    public String getBotToken() {
+        return "1343013669:AAEpfzmRYjuP8RAzvZ8IfNtC96W4pxSDOew";
     }
 }
