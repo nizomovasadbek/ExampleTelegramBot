@@ -316,8 +316,8 @@ public class Main {
                                 e.printStackTrace();
                             }
                         }
-                    }
-                }*/
+                    }*/
+                }
 
                 if(message_text.trim().equals("/me")&&update.getMessage().isUserMessage()){
                     InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
