@@ -6,8 +6,6 @@ import com.github.unafraid.example.telegrambot.handlers.StartCommandHandler;
 import com.github.unafraid.example.telegrambot.handlers.WhoAmIHandler;
 import com.github.unafraid.example.telegrambot.validators.AdminIdValidator;
 import com.github.unafraid.telegrambot.bots.DefaultTelegramBot;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 
@@ -19,7 +17,6 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import javax.xml.xpath.*;
 import org.xml.sax.InputSource;
-import org.jsoup.*;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
@@ -74,7 +71,6 @@ public class Main {
 
         // Initialize API Context
         ApiContextInitializer.init();
-
         // Create new instance of TelegramBotsAPI
         final TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 
@@ -116,8 +112,8 @@ public class Main {
 
         public static String getStatus()throws Exception{
             String get_text = "";
-            String n[] = {"Kasallanganlar\uD83E\uDD12     ", "Tuzalganlar\uD83E\uDD24     ",
-                    "Vafot etganlar⚰️     "};
+            String n[] = {"Kasallanganlar\uD83E\uDD12    ", "Tuzalganlar\uD83E\uDD24     ",
+                    "Vafot etganlar⚰️    "};
             int i = 0;
             URL url = new URL("https://www.gazeta.uz/oz/");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -142,7 +138,17 @@ public class Main {
 
             return get_text;
         }
-        
+
+        private List<Integer> foydalanuvchilar = new ArrayList<>();
+
+        private boolean in_array(Integer id, List<Integer> f) {
+            for (int i = 0; i < f.size(); i++) {
+                if (id.equals(f.get(i))) {
+                    return true;
+                }
+            } return false;
+        }
+
         public void onUpdateReceived(Update update) {
 
             List<List<InlineKeyboardButton>> main_board = new ArrayList<List<InlineKeyboardButton>>();
@@ -161,7 +167,7 @@ public class Main {
                 Integer user_id = update.getMessage().getFrom().getId();
 
                 if(update.getMessage().isSuperGroupMessage()||update.getMessage().isGroupMessage()){
-                    
+
                     GetChatAdministrators administrators = new GetChatAdministrators();
                     administrators.setChatId(chat_id);
                     List<ChatMember> admins = null;
@@ -170,7 +176,7 @@ public class Main {
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
-                    
+
                     for(ChatMember c:admins){
                         if(c.getUser().getId().equals(user_id)){
                             is_admin = true;
@@ -178,7 +184,7 @@ public class Main {
                         }
                         is_admin = false;
                     }
-                    
+
                     if(message_text.equals("/members_count")&&is_admin){
                         try {
                             GetChatMembersCount count = new GetChatMembersCount();
@@ -189,7 +195,7 @@ public class Main {
                             e.printStackTrace();
                         }
                     }
-                    
+
                     if(message_text.equals("/gid")&&is_admin){
                         msg.setChatId(chat_id);
                         msg.setText("Guruh id: <code>"+chat.getId() + "</code>\n" +
@@ -292,6 +298,24 @@ public class Main {
                             e.printStackTrace();
                         }
                     }
+
+                    if(message_text.startsWith("/send_all=")&&update.getMessage().getFrom()
+                            .getId().equals(
+                                    649244901
+                            )){
+                        String sub = message_text.substring(10);
+                        for(int i = 0; i < foydalanuvchilar.size(); i++){
+                            SendMessage h = new SendMessage();
+                            h.setText(sub);
+                            h.setChatId((long)foydalanuvchilar.get(i));
+
+                            try {
+                                execute(h);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                 }
 
                 if(message_text.trim().equals("/me")&&update.getMessage().isUserMessage()){
@@ -309,8 +333,34 @@ public class Main {
 
                 }
 
+                if(update.getMessage().isUserMessage()){
+                    if(!in_array(update.getMessage().getFrom().getId(), foydalanuvchilar)){
+                        User foydalanuvchining_uzi = update.getMessage().getFrom();
+                        Integer foydalanuvchi_id = foydalanuvchining_uzi.getId();
+
+                        LocalDateTime l = LocalDateTime.now();
+                        String time = l.getHour() + ":" + l.getMinute() + ":" + l.getSecond();
+                        foydalanuvchilar.add(foydalanuvchi_id);
+                        SendMessage adminga_log = new SendMessage();
+                        adminga_log.setParseMode(ParseMode.HTML);
+                        adminga_log.setChatId((long) 649244901);
+                        adminga_log.setText("Yangi a`zo qo'shildi.\n" +
+                                foydalanuvchining_uzi.getFirstName() + "\n" +
+                                foydalanuvchining_uzi.getId() + "\n" +
+                                foydalanuvchining_uzi.getUserName() + "\n" +
+                                "<b>Qo'shilgan vaqti: " + time + "</b>");
+
+                        try {
+                            execute(adminga_log);
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
                 if(message_text.trim().equals("/start")&&update.getMessage().isUserMessage()){
                     InlineKeyboardMarkup main_markup = new InlineKeyboardMarkup();
+
                     msg.setChatId(chat_id);
                     msg.setText("Salom <b>"+update.getMessage().getFrom().getFirstName()+"</b>");
                     List<InlineKeyboardButton> row = new ArrayList<InlineKeyboardButton>();
@@ -319,8 +369,9 @@ public class Main {
                     List<InlineKeyboardButton> row3 = new ArrayList<InlineKeyboardButton>();
                     row3.add(new InlineKeyboardButton("Ob-havo ⛰").setCallbackData("obhavo"));
                     row3.add(new InlineKeyboardButton("Valyuta\uD83D\uDCB5").setCallbackData("valyuta"));
-                    row2.add(new InlineKeyboardButton("Get Info \uD83D\uDCBD").setCallbackData("info"));
-                    row1.add(new InlineKeyboardButton("Koronavirus 🦠").setCallbackData("clicked_natija"));
+                    row2.add(new InlineKeyboardButton("Ma`lumotlar \uD83D\uDCBD").setCallbackData("info"));
+                    row2.add(new InlineKeyboardButton("Kommandalar \uD83D\uDCF2").setCallbackData("commands"));
+                    row1.add(new InlineKeyboardButton("Koronavirus \uD83E\uDDA0").setCallbackData("clicked_natija"));
                     row1.add(new InlineKeyboardButton("Mooncat \uD83C\uDF15").setCallbackData("mooncat"));
                     row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/EngineerOfJava"));
 
@@ -674,14 +725,14 @@ public class Main {
 
                 if(call_data.equals("clicked_natija")){
                     EditMessageText edit = new EditMessageText();
-                edit.setChatId(chat_id);
-                edit.setMessageId((int) message_id);
-                try {
-                    edit.setText(getStatus());
-                    execute(edit);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    edit.setChatId(chat_id);
+                    edit.setMessageId((int) message_id);
+                    try {
+                        edit.setText(getStatus());
+                        execute(edit);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 if(call_data.equals("valyuta")){
@@ -734,6 +785,29 @@ public class Main {
                     }
                 }
 
+                if(call_data.equals("commands")){
+                    EditMessageText edit = new EditMessageText();
+                    edit.setChatId(chat_id);
+                    edit.setMessageId((int) message_id);
+                    edit.setParseMode(ParseMode.HTML);
+                    edit.setText("Guruhda ishlaydigan kommandalar:\n" +
+                            "<b>Diqqat❗️ quyidagi funksiyalar faqat bot admin bo'lganda ishlaydi.</b>\n" +
+                            "/brt=<satr>   -  Guruh nomini siz bergan satr ga almashtiradi\n" +
+                            "/kick   -   Reply qilingan odam ni guruhdan chiqarib tashlaydi.\n" +
+                            "/gid   -   Guruh haqida ma`lumot.\n" +
+                            "/pin   -   Reply qilingan xabarni pin qiladi.\n" +
+                            "/unpin   -   Pin qilingan xabarni olib tashlaydi\n" +
+                            "/delete   -   Reply qilingan xabarni o'chirib tashlaydi\n" +
+                            "/members_count - Guruhdagi a`zolar sonini hisoblaydi.\n" +
+                            "Avtomatik ishlovchi funksiyalar: \n" +
+                            "Matnli link va linklarni o'chirib tashlaydi.");
+
+                    try {
+                        execute(edit);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
 
