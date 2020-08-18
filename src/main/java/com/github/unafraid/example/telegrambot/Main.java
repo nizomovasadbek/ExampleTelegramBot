@@ -792,14 +792,14 @@ public class Main {
                     edit.setParseMode(ParseMode.HTML);
                     edit.setText("Guruhda ishlaydigan kommandalar:\n" +
                             "<b>Diqqat❗️ quyidagi funksiyalar faqat bot admin bo'lganda ishlaydi.</b>\n" +
-                            "/brt=<satr>   -  Guruh nomini siz bergan satr ga almashtiradi\n" +
+                            "/brt=[satr]   -  Guruh nomini siz bergan satr ga almashtiradi\n" +
                             "/kick   -   Reply qilingan odam ni guruhdan chiqarib tashlaydi.\n" +
                             "/gid   -   Guruh haqida ma`lumot.\n" +
                             "/pin   -   Reply qilingan xabarni pin qiladi.\n" +
                             "/unpin   -   Pin qilingan xabarni olib tashlaydi\n" +
                             "/delete   -   Reply qilingan xabarni o'chirib tashlaydi\n" +
                             "/members_count - Guruhdagi a`zolar sonini hisoblaydi.\n" +
-                            "Avtomatik ishlovchi funksiyalar: \n" +
+                            "<b>Avtomatik ishlovchi funksiyalar: </b>\n" +
                             "Matnli link va linklarni o'chirib tashlaydi.");
 
                     try {
