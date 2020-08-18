@@ -17,6 +17,7 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import javax.xml.xpath.*;
 import org.xml.sax.InputSource;
+import org.slf4j.*;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
