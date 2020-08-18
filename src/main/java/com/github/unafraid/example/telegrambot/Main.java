@@ -340,7 +340,9 @@ public class Main {
                         Integer foydalanuvchi_id = foydalanuvchining_uzi.getId();
 
                         LocalDateTime l = LocalDateTime.now();
-                        String time = l.getHour() + ":" + l.getMinute() + ":" + l.getSecond();
+                        l.plusHours(5);
+                        String time = String.format("%02d:%02d:%02d",
+                                l.getHour(), l.getMinute(), l.getSecond());
                         foydalanuvchilar.add(foydalanuvchi_id);
                         SendMessage adminga_log = new SendMessage();
                         adminga_log.setParseMode(ParseMode.HTML);
