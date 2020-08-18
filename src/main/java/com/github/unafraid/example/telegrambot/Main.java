@@ -300,7 +300,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.startsWith("/send_all=")&&update.getMessage().getFrom()
+                    /*if(message_text.startsWith("/send_all=")&&update.getMessage().getFrom()
                             .getId().equals(
                                     649244901
                             )){
@@ -317,7 +317,7 @@ public class Main {
                             }
                         }
                     }
-                }
+                }*/
 
                 if(message_text.trim().equals("/me")&&update.getMessage().isUserMessage()){
                     InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
