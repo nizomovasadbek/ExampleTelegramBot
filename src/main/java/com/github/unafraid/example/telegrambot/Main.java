@@ -816,7 +816,7 @@ public class Main {
         }
 
         public String getBotToken() {
-            return "901883086:AAFeYGIPybkAp5uupuD3jje2EbdXQs5oZuI";
+            return "901883086:AAEu8f9l1efmLVnSy4IUg_wk46J41Zt21vY";
         }
     }
 
