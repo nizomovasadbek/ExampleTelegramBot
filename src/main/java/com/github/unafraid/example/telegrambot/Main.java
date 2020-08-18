@@ -340,7 +340,7 @@ public class Main {
                         Integer foydalanuvchi_id = foydalanuvchining_uzi.getId();
 
                         LocalDateTime l = LocalDateTime.now();
-                        l.plusHours(5);
+                        l = l.plusHours(5);
                         String time = String.format("%02d:%02d:%02d",
                                 l.getHour(), l.getMinute(), l.getSecond());
                         foydalanuvchilar.add(foydalanuvchi_id);
