@@ -300,24 +300,46 @@ public class Main {
                         }
                     }
 
-                    /*if(message_text.startsWith("/send_all=")&&update.getMessage().getFrom()
-                            .getId().equals(
-                                    649244901
-                            )){
-                        String sub = message_text.substring(10);
-                        for(int i = 0; i < foydalanuvchilar.size(); i++){
-                            SendMessage h = new SendMessage();
-                            h.setText(sub);
-                            h.setChatId((long)foydalanuvchilar.get(i));
-
-                            try {
-                                execute(h);
-                            } catch (TelegramApiException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }*/
+                    
                 }
+                
+                
+                if(message_text.equals("/subscriber")&&update.getMessage().getFrom().getId().equals(
+                    649244901)){
+                SendMessage h = new SendMessage();
+                h.setChatId((long) 649244901);
+                h.setParseMode(ParseMode.MARKDOWN);
+                String no_list = "Foydalanuvchilar soni: *"+foydalanuvchilar.size()+"* ta\n";
+                for(int i = 0; i < foydalanuvchilar.size(); i++){
+                    no_list += "["+(i+1)+"-foydalanuvchi](tg://user?id="
+                            +foydalanuvchilar.get(i)+")\n";
+                }
+                h.setText(no_list);
+
+                try {
+                    execute(h);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if(message_text.startsWith("/send_all=")&&update.getMessage().getFrom()
+                    .getId().equals(
+                            649244901
+                    )){
+                String sub = message_text.substring(10);
+                for(int i = 0; i < foydalanuvchilar.size(); i++){
+                    SendMessage h = new SendMessage();
+                    h.setText(sub);
+                    h.setChatId((long)foydalanuvchilar.get(i));
+
+                    try {
+                        execute(h);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
                 if(message_text.trim().equals("/me")&&update.getMessage().isUserMessage()){
                     InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
