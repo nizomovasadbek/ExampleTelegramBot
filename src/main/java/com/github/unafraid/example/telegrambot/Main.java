@@ -312,7 +312,7 @@ public class Main {
                 String no_list = "Foydalanuvchilar soni: *"+foydalanuvchilar.size()+"* ta\n";
                 for(int i = 0; i < foydalanuvchilar.size(); i++){
                     no_list += "["+(i+1)+"-foydalanuvchi](tg://user?id="
-                            +foydalanuvchilar.get(i)+")\n";
+                            +foydalanuvchilar.get(i)+") 🆔 "+foydalanuvchilar.get(i)+"\n";
                 }
                 h.setText(no_list);
 
