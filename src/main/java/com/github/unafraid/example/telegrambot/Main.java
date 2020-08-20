@@ -356,6 +356,19 @@ public class Main {
 
                 }
 
+                if(message_text.startsWith("/id=")&&update.getMessage().isUserMessage()){
+                    String text = message_text.substring(4);
+                    SendMessage id_finder = new SendMessage().setParseMode(ParseMode.MARKDOWN);
+                    id_finder.setChatId(chat_id);
+                    id_finder.setText("Siz qidirgan odam\uD83D\uDD0E: ["+text+"](tg://user?id="+text+")");
+
+                    try {
+                        execute(id_finder);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                }
+                
                 if(update.getMessage().isUserMessage()){
                     if(!in_array(update.getMessage().getFrom().getId(), foydalanuvchilar)){
                         User foydalanuvchining_uzi = update.getMessage().getFrom();
@@ -414,6 +427,39 @@ public class Main {
                 }catch(TelegramApiException e){
                     e.printStackTrace();
                 }
+                
+                if(update.getMessage().getNewChatMembers().size()!=0){
+                SendMessage join_ = new SendMessage();
+                join_.setChatId(update.getMessage().getChatId());
+                join_.setParseMode(ParseMode.MARKDOWN);
+                String joiner = "";
+                for(User u:update.getMessage().getNewChatMembers()){
+                    joiner += u.getFirstName() + ", ";
+                }
+
+                joiner = joiner + "\b\b\b\b\b\b";
+
+                join_.setText("Assalomu alaykum*\uD83D\uDC4B" + joiner + "*");
+
+                try {
+                    execute(join_);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if(!update.getMessage().getLeftChatMember().getFirstName().equals(null)){
+                SendMessage left_ = new SendMessage(update.getMessage().getChatId(),
+                        "Xayr *" + update.getMessage().getLeftChatMember().
+                                getFirstName() + "*").setParseMode(ParseMode.MARKDOWN);
+
+                try {
+                    execute(left_);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+                
             }
             if(update.hasCallbackQuery()){
                 String mat1 = "\uD83C\uDF16\uD83C\uDF17\uD83C\uDF18\uD83C\uDF11\uD83C\uDF12\uD83C\uDF13\uD83C\uDF14\uD83C\uDF15";
@@ -825,7 +871,7 @@ public class Main {
                             "/delete   -   Reply qilingan xabarni o'chirib tashlaydi\n" +
                             "/members_count - Guruhdagi a`zolar sonini hisoblaydi.\n" +
                             "<b>Avtomatik ishlovchi funksiyalar: </b>\n" +
-                            "Matnli link va linklarni o'chirib tashlaydi.");
+                            "Matnli link va linklarni o'chirib tashlaydi.\nLichkada ishlaydigan kommandalar:\n/id=[id] - telegramdagi shu id egasini topib beradi.");
 
                     try {
                         execute(edit);
