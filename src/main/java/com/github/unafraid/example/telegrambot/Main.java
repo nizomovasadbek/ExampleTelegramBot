@@ -428,8 +428,9 @@ public class Main {
                 }catch(TelegramApiException e){
                     e.printStackTrace();
                 }
-                
-                if(update.getMessage().getNewChatMembers().size()!=0){
+            }
+            
+            if(update.getMessage().getNewChatMembers().size()!=0){
                 SendMessage join_ = new SendMessage();
                 join_.setChatId(update.getMessage().getChatId());
                 join_.setParseMode(ParseMode.MARKDOWN);
@@ -460,8 +461,7 @@ public class Main {
                     e.printStackTrace();
                 }
             }
-                
-            }
+            
             if(update.hasCallbackQuery()){
                 String mat1 = "\uD83C\uDF16\uD83C\uDF17\uD83C\uDF18\uD83C\uDF11\uD83C\uDF12\uD83C\uDF13\uD83C\uDF14\uD83C\uDF15";
                 String mat2 = "\uD83C\uDF15\uD83C\uDF16\uD83C\uDF17\uD83C\uDF18\uD83C\uDF11\uD83C\uDF12\uD83C\uDF13\uD83C\uDF14";
