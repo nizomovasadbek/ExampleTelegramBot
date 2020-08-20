@@ -299,8 +299,6 @@ public class Main {
                             e.printStackTrace();
                         }
                     }
-
-                    
                 }
                 
                 
@@ -426,38 +424,6 @@ public class Main {
                     if(!msg.getChatId().equals(null))
                         execute(msg);
                 }catch(TelegramApiException e){
-                    e.printStackTrace();
-                }
-            }
-            
-            if(update.getMessage().getNewChatMembers().size()!=0){
-                SendMessage join_ = new SendMessage();
-                join_.setChatId(update.getMessage().getChatId());
-                join_.setParseMode(ParseMode.MARKDOWN);
-                String joiner = "";
-                for(User u:update.getMessage().getNewChatMembers()){
-                    joiner += u.getFirstName() + ", ";
-                }
-
-                joiner = joiner + "\b\b\b\b\b\b";
-
-                join_.setText("Assalomu alaykum*\uD83D\uDC4B" + joiner + "*");
-
-                try {
-                    execute(join_);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if(!update.getMessage().getLeftChatMember().getFirstName().equals(null)){
-                SendMessage left_ = new SendMessage(update.getMessage().getChatId(),
-                        "Xayr *" + update.getMessage().getLeftChatMember().
-                                getFirstName() + "*").setParseMode(ParseMode.MARKDOWN);
-
-                try {
-                    execute(left_);
-                } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
             }
