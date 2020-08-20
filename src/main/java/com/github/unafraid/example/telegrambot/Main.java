@@ -360,7 +360,8 @@ public class Main {
                     String text = message_text.substring(4);
                     SendMessage id_finder = new SendMessage().setParseMode(ParseMode.MARKDOWN);
                     id_finder.setChatId(chat_id);
-                    id_finder.setText("Siz qidirgan odam\uD83D\uDD0E: ["+text+"](tg://user?id="+text+")");
+                    Integer id = Integer.parseInt(text);
+                    id_finder.setText("Siz qidirgan odam\uD83D\uDD0E: ["+text+"](tg://user?id="+id+")");
 
                     try {
                         execute(id_finder);
