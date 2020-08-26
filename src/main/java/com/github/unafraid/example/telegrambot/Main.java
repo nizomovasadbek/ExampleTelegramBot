@@ -467,7 +467,7 @@ public class Main {
                     row7.add(new InlineKeyboardButton("Farg'ona").setCallbackData("ferghana"));
                     row7.add(new InlineKeyboardButton("Xiva").setCallbackData("khiva"));
                     List<InlineKeyboardButton> row8 = new ArrayList<InlineKeyboardButton>();
-                    row8.add(new InlineKeyboardButton("Rasmiy sayt").setUrl("https://obhavo.uz"));
+                    row8.add(new InlineKeyboardButton("Orqaga").setCallbackData("back"));
 
                     min_board.add(row1);
                     min_board.add(row2);
@@ -823,6 +823,44 @@ public class Main {
                     }
                 }
 
+                if(call_data.equals("back")){
+                    EditMessageText edit = new EditMessageText();
+                    edit.setChatId(chat_id);
+                    edit.setMessageId((int) message_id);
+                    edit.setParseMode(ParseMode.MARKDOWN);
+                    
+                    edit.setText("Assalomu alaykum" + callback_user.getFirstName());
+                    
+                    InlineKeyboardMarkup mar = new InlineKeyboardMarkup();
+                    List<List<InlineKeyboardButton>> board = new ArrayList<List<InlineKeyboardButton>>();
+                    
+                    List<InlineKeyboardButton> row = new ArrayList<InlineKeyboardButton>();
+                    List<InlineKeyboardButton> row1 = new ArrayList<InlineKeyboardButton>();
+                    List<InlineKeyboardButton> row2 = new ArrayList<InlineKeyboardButton>();
+                    List<InlineKeyboardButton> row3 = new ArrayList<InlineKeyboardButton>();
+                    row3.add(new InlineKeyboardButton("Ob-havo ⛰").setCallbackData("obhavo"));
+                    row3.add(new InlineKeyboardButton("Valyuta\uD83D\uDCB5").setCallbackData("valyuta"));
+                    row2.add(new InlineKeyboardButton("Ma`lumotlar \uD83D\uDCBD").setCallbackData("info"));
+                    row2.add(new InlineKeyboardButton("Kommandalar \uD83D\uDCF2").setCallbackData("commands"));
+                    row1.add(new InlineKeyboardButton("Koronavirus \uD83E\uDDA0").setCallbackData("clicked_natija"));
+                    row1.add(new InlineKeyboardButton("Mooncat \uD83C\uDF15").setCallbackData("mooncat"));
+                    row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/EngineerOfJava"));
+                    
+                    board.add(row);
+                    board.add(row1);
+                    board.add(row2);
+                    board.add(row3);
+                    
+                    mar.setKeyboard(board);
+                    edit.setReplyMarkup(mar);
+                    
+                    try{
+                        execute(edit);
+                    }catch(TelegramApiException e){
+                        e.printStackTrace();
+                    }
+                }
+                
                 if(call_data.equals("commands")){
                     EditMessageText edit = new EditMessageText();
                     edit.setChatId(chat_id);
