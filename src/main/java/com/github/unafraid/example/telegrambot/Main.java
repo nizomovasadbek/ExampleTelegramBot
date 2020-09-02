@@ -404,7 +404,6 @@ public class Main {
                     List<InlineKeyboardButton> row1 = new ArrayList<InlineKeyboardButton>();
                     List<InlineKeyboardButton> row2 = new ArrayList<InlineKeyboardButton>();
                     List<InlineKeyboardButton> row3 = new ArrayList<InlineKeyboardButton>();
-                    List<InlineKeyboardButton> row4 = new ArrayList<InlineKeyboardButton>();
                     row3.add(new InlineKeyboardButton("Ob-havo ⛰").setCallbackData("obhavo"));
                     row3.add(new InlineKeyboardButton("Valyuta\uD83D\uDCB5").setCallbackData("valyuta"));
                     row2.add(new InlineKeyboardButton("Ma`lumotlar \uD83D\uDCBD").setCallbackData("info"));
@@ -412,10 +411,9 @@ public class Main {
                     row1.add(new InlineKeyboardButton("Koronavirus \uD83E\uDDA0").setCallbackData("clicked_natija"));
                     row1.add(new InlineKeyboardButton("Mooncat \uD83C\uDF15").setCallbackData("mooncat"));
                     row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/azertyklav"));
-                    row4.add(new InlineKeyboardButton("Guruhga qo'shish➕").setUrl("https://t.me/clonemaincampbot?startgroup=/on"));
+                    row.add(new InlineKeyboardButton("Guruhga qo'shish➕").setUrl("https://t.me/clonemaincampbot?startgroup=test"));
 
                     main_board.add(row);
-                    main_board.add(row4);
                     main_board.add(row1);
                     main_board.add(row2);
                     main_board.add(row3);
