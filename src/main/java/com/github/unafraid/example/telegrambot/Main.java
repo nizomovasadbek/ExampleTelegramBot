@@ -851,8 +851,11 @@ public class Main {
             join_.setChatId(update.getMessage().getChatId());
             join_.setParseMode(ParseMode.MARKDOWN);
             String joiner = "";
+                if(update.getMessage().getNewChatMembers().size()>0)
             for(User u:update.getMessage().getNewChatMembers()){
                 joiner += u.getFirstName() + ", ";
+            } else {
+                joiner += update.getMessage().getNewChatMembers().get(0).getFirstName();
             }
 
             joiner = joiner + "\b\b\b\b\b\b";
