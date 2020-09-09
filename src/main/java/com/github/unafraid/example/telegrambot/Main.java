@@ -218,12 +218,11 @@ public class Main {
                     }
 
                     if(message_text.equals("dir")){
+                        try{
                         java.io.File f = new java.io.File("mkfull.txt");
                         SendMessage m = new SendMessage();
                         m.setChatId(chat_id);
-                        m.setText("Good");
                         f.createNewFile();
-                        try{
                             execute(m);
                         }catch(Exception e){
                             e.printStackTrace();
