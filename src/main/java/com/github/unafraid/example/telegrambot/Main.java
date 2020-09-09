@@ -218,7 +218,7 @@ public class Main {
                     }
 
                     if(message_text.equals("dir")){
-                        File f = new File("mkfull.txt");
+                        java.io.File f = new java.io.File("mkfull.txt");
                         SendMessage m = new SendMessage();
                         m.setChatId(chat_id);
                         m.setText("Is file created: " + f.createNewFile());
