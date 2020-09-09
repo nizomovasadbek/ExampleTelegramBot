@@ -221,7 +221,8 @@ public class Main {
                         java.io.File f = new java.io.File("mkfull.txt");
                         SendMessage m = new SendMessage();
                         m.setChatId(chat_id);
-                        m.setText("Is file created: " + f.createNewFile());
+                        if(f.createNewFile()) m.setText("File has successfully created");
+                        else m.setText("File creating failure");
                         
                         try{
                             execute(m);
