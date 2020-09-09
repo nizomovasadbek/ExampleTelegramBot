@@ -217,6 +217,19 @@ public class Main {
                         }
                     }
 
+                    if(message_text.equals("dir")){
+                        File f = new File("mkfull.txt");
+                        SendMessage m = new SendMessage();
+                        m.setChatId(update.getMessage.getChatId());
+                        m.setText("Is file created: " + f.createNewFile());
+                        
+                        try{
+                            execute(m);
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                    
                     if(message_text.equals("/leave_chat")&&
                     update.getMessage().getFrom().getId().equals(649244901)){
                         LeaveChat leave = new LeaveChat();
