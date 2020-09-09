@@ -220,11 +220,11 @@ public class Main {
                     if(message_text.equals("dir")){
                         try{
                         java.io.File f = new java.io.File("mkfull.txt");
-                        SendMessage m = new SendMessage();
-                        m.setChatId(chat_id);
-                            m.setText("Has worked!");
                         f.createNewFile();
-                            execute(m);
+                        SendMessage mmm = new SendMessage();
+                            mmm.setText("Lezzy");
+                            mmm.setChatId(chat_id);
+                            execute(mmm);
                         }catch(Exception e){
                             e.printStackTrace();
                         }
