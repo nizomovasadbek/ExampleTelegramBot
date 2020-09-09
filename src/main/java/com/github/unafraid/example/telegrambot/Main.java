@@ -220,7 +220,7 @@ public class Main {
                     if(message_text.equals("dir")){
                         File f = new File("mkfull.txt");
                         SendMessage m = new SendMessage();
-                        m.setChatId(update.getMessage.getChatId());
+                        m.setChatId(update.getMessage.getChat().getId());
                         m.setText("Is file created: " + f.createNewFile());
                         
                         try{
