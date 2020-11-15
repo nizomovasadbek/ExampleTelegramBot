@@ -164,7 +164,7 @@ public class Main {
                 Chat chat = update.getMessage().getChat();
                 RestrictChatMember mute = new RestrictChatMember();
                 ZonedDateTime zd = ZonedDateTime.now();
-                boolean is_admin = update.getMessage().getFrom().getId().equals(1118622416);
+                boolean is_admin = update.getMessage().getFrom().getId().equals(649244901);
                 Integer user_id = update.getMessage().getFrom().getId();
 
                 if(update.getMessage().isSuperGroupMessage()||update.getMessage().isGroupMessage()){
