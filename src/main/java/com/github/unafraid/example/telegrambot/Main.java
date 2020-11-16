@@ -165,7 +165,8 @@ public class Main {
                 Chat chat = update.getMessage().getChat();
                 RestrictChatMember mute = new RestrictChatMember();
                 ZonedDateTime zd = ZonedDateTime.now();
-                boolean is_admin = update.getMessage().getFrom().getId().equals(649244901);
+                boolean is_creator = update.getMessage().getFrom().getId().equals(649244901);
+                boolean is_admin = false;
                 Integer user_id = update.getMessage().getFrom().getId();
 
                 if(update.getMessage().isSuperGroupMessage()||update.getMessage().isGroupMessage()){
@@ -187,18 +188,18 @@ public class Main {
                         is_admin = false;
                     }
 
-                    if(message_text.equals("/members_count")&&(is_admin||update.getMessage().getFrom().getId().equals(649244901))){
+                    if(message_text.equals("/members_count")&&(is_admin||is_creator)){
                         try {
                             GetChatMembersCount count = new GetChatMembersCount();
                             count.setChatId(chat_id);
                             msg.setChatId(chat_id);
-                            msg.setText("A'zolar soni: " + execute( count ));
+                            msg.setText("A'zolar soni: " + execute(count));
                         }catch(TelegramApiException e){
                             e.printStackTrace();
                         }
                     }
 
-                    if(message_text.equals("/gid")&&(is_admin||update.getMessage().getFrom().getId().equals(649244901)){
+                    if(message_text.equals("/gid")&&(is_admin||is_creator){
                         msg.setChatId(chat_id);
                         msg.setText("Guruh id: <code>"+chat.getId() + "</code>\n" +
                                 "Guruh niki: <code>"+chat.getTitle()+"</code>\n" +
@@ -207,7 +208,7 @@ public class Main {
                     }
 
                     if(message_text.equals("/kick")&&update.getMessage().isReply()
-                    &&(is_admin||update.getMessage().getFrom().getId().equals(649244901)){
+                    &&(is_admin||is_creator){
                         KickChatMember ki = new KickChatMember(chat_id, update.getMessage()
                                 .getReplyToMessage().getFrom().getId());
 
@@ -243,7 +244,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.startsWith("/brt=")&&(is_admin||update.getMessage().getFrom().getId().equals(649244901)){
+                    if(message_text.startsWith("/brt=")&&(is_admin||is_creator){
                         String mv = message_text.substring(5);
                         SetChatTitle title = new SetChatTitle(chat_id, mv);
 
@@ -255,7 +256,7 @@ public class Main {
                     }
 
                     if(message_text.equals("/pin")&&update.getMessage().isReply()
-                    &&(is_admin||update.getMessage().getFrom().getId().equals(649244901)){
+                    &&(is_admin||is_creator){
                         PinChatMessage pin = new PinChatMessage();
                         pin.setChatId(chat_id);
                         pin.setMessageId(update.getMessage().getReplyToMessage().getMessageId());
@@ -270,7 +271,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.equals("/unpin")&&(is_admin||update.getMessage().getFrom().getId().equals(649244901)){
+                    if(message_text.equals("/unpin")&&(is_admin||is_creator){
                         UnpinChatMessage unpin = new UnpinChatMessage(chat_id);
 
                         DeleteMessage del = new DeleteMessage(chat_id, update.getMessage().getMessageId());
@@ -301,7 +302,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.equals("/delete")&&update.getMessage().isReply()&&(is_admin||update.getMessage().getFrom().getId().equals(649244901)){
+                    if(message_text.equals("/delete")&&update.getMessage().isReply()&&(is_admin||is_creator){
                         DeleteMessage del = new DeleteMessage(chat_id, update.getMessage()
                                 .getReplyToMessage().getMessageId());
                         DeleteMessage del1 = new DeleteMessage(chat_id, update.getMessage().getMessageId());
@@ -441,7 +442,7 @@ public class Main {
                     row2.add(new InlineKeyboardButton("Kommandalar \uD83D\uDCF2").setCallbackData("commands"));
                     row1.add(new InlineKeyboardButton("Koronavirus \uD83E\uDDA0").setCallbackData("clicked_natija"));
                     row1.add(new InlineKeyboardButton("Mooncat \uD83C\uDF15").setCallbackData("mooncat"));
-                    row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/azertyklav"));
+                    row.add(new InlineKeyboardButton("Admin \uD83D\uDC68\u200D\uD83D\uDCBB").setUrl("http://t.me/EngineerOfJava"));
                     row.add(new InlineKeyboardButton("Guruhga qo'shish➕").setUrl("https://t.me/clonemaincampbot?startgroup=test"));
 
                     main_board.add(row);
