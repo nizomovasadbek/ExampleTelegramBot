@@ -199,7 +199,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.equals("/gid")&&(is_admin||is_creator){
+                    if(message_text.equals("/gid")&&(is_admin||is_creator)){
                         msg.setChatId(chat_id);
                         msg.setText("Guruh id: <code>"+chat.getId() + "</code>\n" +
                                 "Guruh niki: <code>"+chat.getTitle()+"</code>\n" +
@@ -208,7 +208,7 @@ public class Main {
                     }
 
                     if(message_text.equals("/kick")&&update.getMessage().isReply()
-                    &&(is_admin||is_creator){
+                    &&(is_admin||is_creator)){
                         KickChatMember ki = new KickChatMember(chat_id, update.getMessage()
                                 .getReplyToMessage().getFrom().getId());
 
@@ -244,7 +244,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.startsWith("/brt=")&&(is_admin||is_creator){
+                    if(message_text.startsWith("/brt=")&&(is_admin||is_creator)){
                         String mv = message_text.substring(5);
                         SetChatTitle title = new SetChatTitle(chat_id, mv);
 
@@ -256,7 +256,7 @@ public class Main {
                     }
 
                     if(message_text.equals("/pin")&&update.getMessage().isReply()
-                    &&(is_admin||is_creator){
+                    &&(is_admin||is_creator)){
                         PinChatMessage pin = new PinChatMessage();
                         pin.setChatId(chat_id);
                         pin.setMessageId(update.getMessage().getReplyToMessage().getMessageId());
@@ -271,7 +271,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.equals("/unpin")&&(is_admin||is_creator){
+                    if(message_text.equals("/unpin")&&(is_admin||is_creator)){
                         UnpinChatMessage unpin = new UnpinChatMessage(chat_id);
 
                         DeleteMessage del = new DeleteMessage(chat_id, update.getMessage().getMessageId());
@@ -302,7 +302,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.equals("/delete")&&update.getMessage().isReply()&&(is_admin||is_creator){
+                    if(message_text.equals("/delete")&&update.getMessage().isReply()&&(is_admin||is_creator)){
                         DeleteMessage del = new DeleteMessage(chat_id, update.getMessage()
                                 .getReplyToMessage().getMessageId());
                         DeleteMessage del1 = new DeleteMessage(chat_id, update.getMessage().getMessageId());
