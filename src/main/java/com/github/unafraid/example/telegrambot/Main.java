@@ -326,11 +326,11 @@ public class Main {
                         int aimp = (int) engine.eval(would_be_calc);
                         String kemp = String.format("<code>%d</code>", aimp);
                         msgt.setText(kemp);
+                        execute(msgt);
                     }catch(Exception e){
                        e.printStackTrace();
                         msgt.setText("<b>Xatolik!</b>");
                     }
-                    execute(msgt);
                 }
                 
                 if(message_text.equals("/subscriber")&&update.getMessage().getFrom().getId().equals(
