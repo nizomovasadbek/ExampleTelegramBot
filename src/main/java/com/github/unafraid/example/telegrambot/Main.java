@@ -42,6 +42,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.RestrictChatMember;
 import java.time.*;
+import javax.script.*;
 
 public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
@@ -313,9 +314,23 @@ public class Main {
                         }
                     }
                 }
-                
                 if(message_text.startsWith("calc")){
-                    String statement
+                    SendMessage msgt = new SendMessage();
+                    msgt.setParseMode(ParseMode.HTML);
+                    msgt.setChatId(chat_id);
+                    msgt.setText("Hisoblanmoqda...");
+                    String would_be_calc = message_text.subString(5);
+                    ScriptEngineManager manager = new ScriptEngineManager();
+                    ScriptEngine engine = manager.getEngineByName("nashorn");
+                    try{
+                        int aimp = (int) engine.eval(would_be_calc);
+                        String kemp = String.format("<code>%d</code>", aimp);
+                        msgt.setText(kemp);
+                    }catch(ScriptException e){
+                       e.printStackTrace();
+                        msgt.setText("Xatolik!");
+                        execute(msgt);
+                    }catch(Exception e){ e.printStackTrace(); }
                 }
                 
                 if(message_text.equals("/subscriber")&&update.getMessage().getFrom().getId().equals(
