@@ -319,7 +319,7 @@ public class Main {
                     msgt.setParseMode(ParseMode.HTML);
                     msgt.setChatId(chat_id);
                     msgt.setText("Hisoblanmoqda...");
-                    String would_be_calc = message_text.subString(5);
+                    String would_be_calc = message_text.substring(5);
                     ScriptEngineManager manager = new ScriptEngineManager();
                     ScriptEngine engine = manager.getEngineByName("nashorn");
                     try{
@@ -328,7 +328,7 @@ public class Main {
                         msgt.setText(kemp);
                     }catch(ScriptException e){
                        e.printStackTrace();
-                        msgt.setText("Xatolik!");
+                        msgt.setText("<b>Xatolik!</b>");
                         execute(msgt);
                     }catch(Exception e){ e.printStackTrace(); }
                 }
