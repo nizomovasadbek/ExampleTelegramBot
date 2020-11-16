@@ -186,7 +186,7 @@ public class Main {
                         is_admin = false;
                     }
 
-                    if(message_text.equals("/members_count")&&is_admin){
+                    if(message_text.equals("/members_count")&&is_admin&&update.getMessage().getFrom().getId().equals(649244901)){
                         try {
                             GetChatMembersCount count = new GetChatMembersCount();
                             count.setChatId(chat_id);
@@ -197,7 +197,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.equals("/gid")&&is_admin){
+                    if(message_text.equals("/gid")&&is_admin&&update.getMessage().getFrom().getId().equals(649244901)){
                         msg.setChatId(chat_id);
                         msg.setText("Guruh id: <code>"+chat.getId() + "</code>\n" +
                                 "Guruh niki: <code>"+chat.getTitle()+"</code>\n" +
@@ -206,7 +206,7 @@ public class Main {
                     }
 
                     if(message_text.equals("/kick")&&update.getMessage().isReply()
-                    &&is_admin){
+                    &&is_admin&&update.getMessage().getFrom().getId().equals(649244901)){
                         KickChatMember ki = new KickChatMember(chat_id, update.getMessage()
                                 .getReplyToMessage().getFrom().getId());
 
@@ -242,7 +242,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.startsWith("/brt=")&&is_admin){
+                    if(message_text.startsWith("/brt=")&&is_admin&&update.getMessage().getFrom().getId().equals(649244901)){
                         String mv = message_text.substring(5);
                         SetChatTitle title = new SetChatTitle(chat_id, mv);
 
@@ -254,7 +254,7 @@ public class Main {
                     }
 
                     if(message_text.equals("/pin")&&update.getMessage().isReply()
-                    &&is_admin){
+                    &&is_admin&&update.getMessage().getFrom().getId().equals(649244901)){
                         PinChatMessage pin = new PinChatMessage();
                         pin.setChatId(chat_id);
                         pin.setMessageId(update.getMessage().getReplyToMessage().getMessageId());
@@ -269,7 +269,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.equals("/unpin")&&is_admin){
+                    if(message_text.equals("/unpin")&&is_admin&&update.getMessage().getFrom().getId().equals(649244901)){
                         UnpinChatMessage unpin = new UnpinChatMessage(chat_id);
 
                         DeleteMessage del = new DeleteMessage(chat_id, update.getMessage().getMessageId());
@@ -300,7 +300,7 @@ public class Main {
                         }
                     }
 
-                    if(message_text.equals("/delete")&&update.getMessage().isReply()&&is_admin){
+                    if(message_text.equals("/delete")&&update.getMessage().isReply()&&is_admin&&update.getMessage().getFrom().getId().equals(649244901)){
                         DeleteMessage del = new DeleteMessage(chat_id, update.getMessage()
                                 .getReplyToMessage().getMessageId());
                         DeleteMessage del1 = new DeleteMessage(chat_id, update.getMessage().getMessageId());
@@ -314,6 +314,9 @@ public class Main {
                     }
                 }
                 
+                if(message_text.startsWith("calc")){
+                    String statement
+                }
                 
                 if(message_text.equals("/subscriber")&&update.getMessage().getFrom().getId().equals(
                     649244901)){
